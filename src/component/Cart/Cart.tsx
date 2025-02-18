@@ -1,4 +1,5 @@
 import { Header } from "component/Header/Header";
+import { Link } from "react-router";
 
 export const Cart = () => {
   return (
@@ -120,13 +121,13 @@ export const Cart = () => {
                 </span>
               </div>
               <div className="cart__bottom-buttons">
-                <a href="/" className="button button--outline button--add go-back-btn">
+                <Link to="/" className="button button--outline button--add go-back-btn">
                   <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7 13L1 6.93015L6.86175 1" stroke="#D3D3D3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
                   </svg>
 
                   <span>Вернуться назад</span>
-                </a>
+                </Link>
                 <div className="button pay-btn">
                   <span>Оплатить сейчас</span>
                 </div>
