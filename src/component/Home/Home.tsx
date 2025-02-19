@@ -5,13 +5,12 @@ import { Header } from "component/Header/Header";
 import { PizzaBlock } from "component/Pizza/PizzaBlock";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterSelector } from "Slice/Filter";
+import { filterSelector } from "Slice/FilterSlice";
 import { pizzaSelector, setPizzas } from "Slice/PizzaSlice";
 
 export const Home = () => {
   const { pizzas } = useSelector(pizzaSelector);
   const { categoryId, sortIndex } = useSelector(filterSelector);
-
 
   const dispatch = useDispatch();
 

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import pizza from "./PizzaSlice";
-import filter from "./Filter";
+import filter from "./FilterSlice";
 
 export const store = configureStore({
   reducer: {

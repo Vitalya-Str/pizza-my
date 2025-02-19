@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { setSortIndex } from "Slice/Filter";
+import { setSortIndex } from "Slice/FilterSlice";
 
 const sortList = ["популярности", "цене", "алфавиту"];
 

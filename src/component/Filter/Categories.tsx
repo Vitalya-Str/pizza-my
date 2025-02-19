@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { setCategoryIndex } from "Slice/Filter";
+import { setCategoryIndex } from "Slice/FilterSlice";
 
 const list = ["Все", "мясные", "Вегетарианская", "Гриль", "Острые", "Закрытые"];
 
