@@ -1,4 +1,16 @@
-export const Sort = () => {
+import { FC } from "react";
+import { useDispatch } from "react-redux";
+import { setSortIndex } from "Slice/Filter";
+
+const sortList = ["популярности", "цене", "алфавиту"];
+
+type SortType = {
+  sortIndex: number;
+};
+
+export const Sort: FC<SortType> = ({ sortIndex }) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -9,13 +21,15 @@ export const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span>{sortList[sortIndex]}</span>
       </div>
       <div className="sort__popup">
         <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
+          {sortList.map((sort, i) => (
+            <li onClick={() => dispatch(setSortIndex(i))} className={sortIndex === i ? "active" : ""} key={i}>
+              {sort}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

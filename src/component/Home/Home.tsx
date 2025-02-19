@@ -5,10 +5,13 @@ import { Header } from "component/Header/Header";
 import { PizzaBlock } from "component/Pizza/PizzaBlock";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { filterSelector } from "Slice/Filter";
 import { pizzaSelector, setPizzas } from "Slice/PizzaSlice";
 
 export const Home = () => {
   const { pizzas } = useSelector(pizzaSelector);
+  const { categoryId, sortIndex } = useSelector(filterSelector);
+
 
   const dispatch = useDispatch();
 
@@ -24,8 +27,8 @@ export const Home = () => {
         <div className="content">
           <div className="container">
             <div className="content__top">
-              <Categories />
-              <Sort />
+              <Categories categoryId={categoryId} />
+              <Sort sortIndex={sortIndex} />
             </div>
             <h2 className="content__title">Все пиццы</h2>
 
