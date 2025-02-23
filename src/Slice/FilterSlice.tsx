@@ -5,11 +5,15 @@ import { RootState } from "./Store";
 export type FilterType = {
   categoryId: number;
   sortIndex: number;
+  sortPopup: string;
+  orderType: "asc" | "desc";
 };
 
 const initialState: FilterType = {
   categoryId: 0,
   sortIndex: 0,
+  sortPopup: "rating",
+  orderType: "desc",
 };
 
 const filterSlice = createSlice({
@@ -22,10 +26,17 @@ const filterSlice = createSlice({
     setSortIndex: (state, action: PayloadAction<number>) => {
       state.sortIndex = action.payload;
     },
+    setOrderType: (state, action: PayloadAction<"asc" | "desc">) => {
+      state.orderType = action.payload;
+    },
+    setSortPopup: (state, action: PayloadAction<string>) => {
+      state.sortPopup = action.payload;
+      
+    },
   },
 });
 
-export const { setCategoryIndex, setSortIndex } = filterSlice.actions;
+export const { setCategoryIndex, setSortIndex, setOrderType, setSortPopup } = filterSlice.actions;
 
 export const filterSelector = (state: RootState) => state.filter;
 

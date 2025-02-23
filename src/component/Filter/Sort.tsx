@@ -1,14 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSortIndex } from "Slice/FilterSlice";
+import { setOrderType, setSortIndex, setSortPopup } from "Slice/FilterSlice";
+import s from "./sort.module.scss";
 
 const sortList = ["популярности", "цене", "алфавиту"];
 
 type SortType = {
   sortIndex: number;
+  orderType: "asc" | "desc";
 };
 
-export const Sort: FC<SortType> = ({ sortIndex }) => {
+export const Sort: FC<SortType> = ({ sortIndex, orderType }) => {
+  const [popupActive, setpopUpActive] = useState(true);
+  const sortName = ["rating", "price", "title"];
+
   const dispatch = useDispatch();
 
   return (
@@ -20,13 +25,22 @@ export const Sort: FC<SortType> = ({ sortIndex }) => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
-        <span>{sortList[sortIndex]}</span>
+        <b>Сортировка по :</b>
+        <div className={s.root}>
+          <button className={orderType === "desc" ? s.activeButton : ""} onClick={() => dispatch(setOrderType("desc"))}>
+            ↑
+          </button>
+          <button className={orderType === "asc" ? s.activeButton : ""} onClick={() => dispatch(setOrderType("asc"))}>
+            ↓
+          </button>
+        </div>
+
+        <span onClick={() => setpopUpActive(false)}>{sortList[sortIndex]}</span>
       </div>
-      <div className="sort__popup">
+      <div onClick={() => setpopUpActive(true)} className={popupActive === true ? "sort__popup_active" : "sort__popup"}>
         <ul>
           {sortList.map((sort, i) => (
-            <li onClick={() => dispatch(setSortIndex(i))} className={sortIndex === i ? "active" : ""} key={i}>
+            <li onClick={() => dispatch(setSortIndex(i), setSortPopup(sortName[sortIndex]))} className={sortIndex === i ? "active" : ""} key={i}>
               {sort}
             </li>
           ))}
