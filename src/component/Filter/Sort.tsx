@@ -3,7 +3,11 @@ import { useDispatch } from "react-redux";
 import { setOrderType, setSortIndex, setSortPopup } from "Slice/FilterSlice";
 import s from "./sort.module.scss";
 
-const sortList = ["популярности", "цене", "алфавиту"];
+const sortList = [
+  { name: "популярности", sortProperty: "rating" },
+  { name: "цене", sortProperty: "price" },
+  { name: "алфавиту", sortProperty: "title" },
+];
 
 type SortType = {
   sortIndex: number;
@@ -12,9 +16,13 @@ type SortType = {
 
 export const Sort: FC<SortType> = ({ sortIndex, orderType }) => {
   const [popupActive, setpopUpActive] = useState(true);
-  const sortName = ["rating", "price", "title"];
 
   const dispatch = useDispatch();
+
+  const onSetSort = (i: number, sortProperty: string) => {
+    dispatch(setSortIndex(i));
+    dispatch(setSortPopup(sortProperty));
+  };
 
   return (
     <div className="sort">
@@ -27,21 +35,21 @@ export const Sort: FC<SortType> = ({ sortIndex, orderType }) => {
         </svg>
         <b>Сортировка по :</b>
         <div className={s.root}>
-          <button className={orderType === "desc" ? s.activeButton : ""} onClick={() => dispatch(setOrderType("desc"))}>
+          <button className={orderType === "asc" ? s.activeButton : ""} onClick={() => dispatch(setOrderType("asc"))}>
             ↑
           </button>
-          <button className={orderType === "asc" ? s.activeButton : ""} onClick={() => dispatch(setOrderType("asc"))}>
+          <button className={orderType === "desc" ? s.activeButton : ""} onClick={() => dispatch(setOrderType("desc"))}>
             ↓
           </button>
         </div>
 
-        <span onClick={() => setpopUpActive(false)}>{sortList[sortIndex]}</span>
+        <span onClick={() => setpopUpActive(false)}>{sortList[sortIndex].name}</span>
       </div>
       <div onClick={() => setpopUpActive(true)} className={popupActive === true ? "sort__popup_active" : "sort__popup"}>
         <ul>
           {sortList.map((sort, i) => (
-            <li onClick={() => dispatch(setSortIndex(i), setSortPopup(sortName[sortIndex]))} className={sortIndex === i ? "active" : ""} key={i}>
-              {sort}
+            <li onClick={() => onSetSort(i, sort.sortProperty)} className={sortIndex === i ? "active" : ""} key={i}>
+              {sort.name}
             </li>
           ))}
         </ul>

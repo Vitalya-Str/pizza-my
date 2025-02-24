@@ -13,7 +13,7 @@ const initialState: FilterType = {
   categoryId: 0,
   sortIndex: 0,
   sortPopup: "rating",
-  orderType: "desc",
+  orderType: "asc",
 };
 
 const filterSlice = createSlice({
@@ -31,12 +31,17 @@ const filterSlice = createSlice({
     },
     setSortPopup: (state, action: PayloadAction<string>) => {
       state.sortPopup = action.payload;
-      
+    },
+    setFilter: (state, action: PayloadAction<FilterType>) => {
+      state.categoryId = Number(action.payload.categoryId);
+      state.sortPopup = action.payload.sortPopup;
+      state.orderType = action.payload.orderType;
+      state.sortIndex = action.payload.sortIndex;
     },
   },
 });
 
-export const { setCategoryIndex, setSortIndex, setOrderType, setSortPopup } = filterSlice.actions;
+export const { setCategoryIndex, setSortIndex, setOrderType, setSortPopup, setFilter } = filterSlice.actions;
 
 export const filterSelector = (state: RootState) => state.filter;
 

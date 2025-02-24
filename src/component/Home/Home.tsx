@@ -3,19 +3,17 @@ import { Categories } from "component/Filter/Categories";
 import { Sort } from "component/Filter/Sort";
 import { Header } from "component/Header/Header";
 import { PizzaBlock } from "component/Pizza/PizzaBlock";
-import QueryString from "qs";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
-import { filterSelector } from "Slice/FilterSlice";
+import { useSearchParams } from "react-router";
+import { filterSelector, setFilter } from "Slice/FilterSlice";
 import { pizzaSelector, setPizzas } from "Slice/PizzaSlice";
 
 export const Home = () => {
   const { pizzas } = useSelector(pizzaSelector);
   const { categoryId, sortIndex, orderType, sortPopup } = useSelector(filterSelector);
 
-  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
 
   const categories = categoryId === 0 ? "" : `category=${categoryId}`;
@@ -24,17 +22,27 @@ export const Home = () => {
     axios.get(`https://6783e7b58b6c7a1316f60805.mockapi.io/Pizza-v2?${categories}&sortBy=${sortPopup}&order=${orderType}`).then((res) => {
       dispatch(setPizzas(res.data));
     });
-  }, [categoryId, sortIndex, orderType, sortPopup]);
+  }, [categoryId, orderType, sortPopup]);
 
   useEffect(() => {
-    const qs = QueryString.stringify({
-      categoryId,
-      sortPopup,
-      orderType,
-    });
-    navigate(`?${qs}`);
-    console.log(qs);
+    setSearchParams(`${categories}&sortBy=${sortPopup}&order=${orderType}`);
   }, [categoryId, orderType, sortPopup]);
+
+  useEffect(() => {
+    const category = searchParams.get("category") || 0;
+    const sortList = searchParams.get("sortPopup") || "rating";
+    const order = searchParams.get("orderType") || "asc";
+    console.log(sortList, order, category, sortIndex);
+
+    dispatch(
+      setFilter({
+        categoryId: Number(category),
+        sortPopup: sortList,
+        orderType: order as "asc",
+        sortIndex,
+      })
+    );
+  }, []);
 
   return (
     <div>
