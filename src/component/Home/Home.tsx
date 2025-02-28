@@ -3,7 +3,7 @@ import { Categories } from "component/Filter/Categories";
 import { Sort } from "component/Filter/Sort";
 import { Header } from "component/Header/Header";
 import { PizzaBlock } from "component/Pizza/PizzaBlock";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router";
 import { filterSelector, setFilter } from "Slice/FilterSlice";
@@ -19,20 +19,9 @@ export const Home = () => {
   const categories = categoryId === 0 ? "" : `category=${categoryId}`;
 
   useEffect(() => {
-    axios.get(`https://6783e7b58b6c7a1316f60805.mockapi.io/Pizza-v2?${categories}&sortBy=${sortPopup}&order=${orderType}`).then((res) => {
-      dispatch(setPizzas(res.data));
-    });
-  }, [categoryId, orderType, sortPopup]);
-
-  useEffect(() => {
-    setSearchParams(`${categories}&sortBy=${sortPopup}&order=${orderType}`);
-  }, [categoryId, orderType, sortPopup]);
-
-  useEffect(() => {
     const category = searchParams.get("category") || 0;
-    const sortList = searchParams.get("sortPopup") || "rating";
-    const order = searchParams.get("orderType") || "asc";
-    console.log(sortList, order, category, sortIndex);
+    const sortList = searchParams.get("sortBy") || "rating";
+    const order = searchParams.get("order") || "asc";
 
     dispatch(
       setFilter({
@@ -44,6 +33,26 @@ export const Home = () => {
     );
   }, []);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    const getPizzas = async () => {
+      try {
+        const responce = await axios.get(
+          `https://6783e7b58b6c7a1316f60805.mockapi.io/Pizza-v2?${categories}&sortBy=${sortPopup}&order=${orderType}`,
+          {
+            signal: controller.signal,
+          }
+        );
+        dispatch(setPizzas(responce.data));
+      } catch (error) {}
+    };
+    getPizzas();
+    return () => controller.abort();
+  }, [categoryId, orderType, sortPopup]);
+
+  useEffect(() => {
+    setSearchParams(`${categories}&sortBy=${sortPopup}&order=${orderType}`);
+  }, [categoryId, orderType, sortPopup]);
   return (
     <div>
       <div className="wrapper">

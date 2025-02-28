@@ -1,25 +1,47 @@
-import { FC } from "react";
-import { PizzaType } from "Slice/PizzaSlice";
+import { FC, useState } from "react";
+import { Link } from "react-router";
 
-export const PizzaBlock: FC<PizzaType> = ({ id, title, types, sizes, category, price }) => {
+type PizzaBlockType = {
+  id: string;
+  title: string;
+  price: number;
+  category: number;
+  types: number[];
+  sizes: number[];
+};
+
+export const PizzaBlock: FC<PizzaBlockType> = ({ id, title, types, sizes, category, price }) => {
+  const [pizzaSize, setSize] = useState(0);
+  const [pizzaType, setType] = useState(0);
+  const sizeList = [26, 30, 40];
+  const typeList = ["тонкое", "традиционное"];
+
   return (
     <>
       <div className="pizza-block">
-        <img
-          className="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
-        <h4 className="pizza-block__title">{title}</h4>
+        <Link to={`/pizza-details/${id}`}>
+          <img
+            className="pizza-block__image"
+            src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+            alt="Pizza"
+          />
+          <h4 className="pizza-block__title">{title}</h4>
+        </Link>
+
         <div className="pizza-block__selector">
           <ul>
-            <li className="active">тонкое</li>
-            <li>традиционное</li>
+            {types.map((type, i) => (
+              <li key={i} className={pizzaType === i ? "active" : ""} onClick={() => setType(i)}>
+                {typeList[type]}
+              </li>
+            ))}
           </ul>
           <ul>
-            <li className="active">26 см.</li>
-            <li>30 см.</li>
-            <li>40 см.</li>
+            {sizes.map((size, i) => (
+              <li key={i} className={pizzaSize === i ? "active" : ""} onClick={() => setSize(i)}>
+                {size} см.
+              </li>
+            ))}
           </ul>
         </div>
         <div className="pizza-block__bottom">

@@ -13,7 +13,7 @@ export interface PizzaType {
   rating: number;
 }
 
-interface PizzasSlice {
+export interface PizzasSlice {
   pizzas: PizzaType[];
 }
 
