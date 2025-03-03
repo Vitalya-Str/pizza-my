@@ -14,7 +14,7 @@ const App = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/cartEmpty" element={<CartEmpty />} />
       <Route path="/pizza-details/:id" element={<PizzaDetails />} />
-      <Route path="/not-found" element={<NotFound />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

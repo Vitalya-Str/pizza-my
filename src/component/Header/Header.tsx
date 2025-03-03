@@ -1,6 +1,12 @@
+import { FC } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router";
+import { cartSelector } from "Slice/CartSlice";
 
 export const Header = () => {
+  const { items, totalPrice } = useSelector(cartSelector);
+
+  const totalCount = items.reduce((sum, item) => sum + item.count, 0);
   return (
     <div className="header">
       <div className="container">
@@ -15,7 +21,7 @@ export const Header = () => {
         </Link>
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
-            <span>520 ₽</span>
+            <span>{totalPrice} ₽</span>
             <div className="button__delimiter"></div>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -40,7 +46,7 @@ export const Header = () => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>3</span>
+            <span>{totalCount}</span>
           </Link>
         </div>
       </div>

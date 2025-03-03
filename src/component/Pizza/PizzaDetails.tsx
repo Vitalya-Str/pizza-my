@@ -20,23 +20,29 @@ export const PizzaDetails = () => {
   }
 
   return (
-    <div className="content__items">
-      <div className="pizza-block">
-        <img
-          className="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
-        <h4 className="pizza-block__title">{pizza.title}</h4>
-        <div>
-          <b>Цена: {pizza.price} тг</b>{" "}
-        </div>
+    <div className="wrapper">
+      <div className="content">
+        <div className="container">
+          <div className="content__items">
+            <div className="pizza-block">
+              <img
+                className="pizza-block__image"
+                src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                alt="Pizza"
+              />
+              <h4 className="pizza-block__title">{pizza.title}</h4>
+              <div>
+                <b>Цена: {pizza.price} тг</b>{" "}
+              </div>
 
-        <Link to="/">
-          <div className="button button--outline button--add">
-            <span>Назад</span>
+              <Link to="/">
+                <div className="button button--outline button--add">
+                  <span>Назад</span>
+                </div>
+              </Link>
+            </div>
           </div>
-        </Link>
+        </div>
       </div>
     </div>
   );
