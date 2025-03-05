@@ -56,7 +56,7 @@ export const Home = () => {
   return (
     <div>
       <div className="wrapper">
-        <Header  />
+        <Header />
         <div className="content">
           <div className="container">
             <div className="content__top">
@@ -67,7 +67,7 @@ export const Home = () => {
 
             <div className="content__items">
               {pizzas.map((pizza) => (
-                <PizzaBlock key={pizza.id} {...pizza} />
+                <PizzaBlock key={pizza.id} item={pizza} />
               ))}
             </div>
           </div>

@@ -1,18 +1,16 @@
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
-import { cartItemSelector, cartSelector, setItems } from "Slice/CartSlice";
+import { cartItemSelector, CartItemType, cartSelector, setItems } from "Slice/CartSlice";
+import { PizzaType } from "Slice/PizzaSlice";
 
-export type PizzaBlockType = {
-  id: any;
-  title: string;
-  price: number;
-  category: number;
-  types: number[];
-  sizes: number[];
+export type PizzaBlockProps = {
+  item: PizzaType;
 };
 
-export const PizzaBlock: FC<PizzaBlockType> = ({ id, title, types, sizes, category, price }) => {
+export const PizzaBlock: FC<PizzaBlockProps> = ({ item }) => {
+  const { id, title, types, sizes, category, price } = item;
+
   const cartItem = useSelector(cartItemSelector(id));
 
   const setCount = cartItem ? cartItem.count : 0;
@@ -25,15 +23,15 @@ export const PizzaBlock: FC<PizzaBlockType> = ({ id, title, types, sizes, catego
   const dispatch = useDispatch();
 
   const addItems = () => {
-    const item = {
-      id,
-      title,
-      types: typeList[pizzaType],
-      sizes: sizes[pizzaSize],
-      category,
-      price,
-    };
-    dispatch(setItems(item));
+    // const item: CartItemType = {
+    //   id,
+    //   title,
+    //   types: typeList[pizzaType],
+    //   sizes: sizes[pizzaSize],
+    //   category,
+    //   price,
+    // };
+    dispatch(setItems({ ...item, count: 0, types: typeList[pizzaType], sizes: sizes[pizzaSize] }));
   };
 
   return (

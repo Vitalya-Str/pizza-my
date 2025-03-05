@@ -1,20 +1,23 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
-import { itemMinus, setItems } from "Slice/CartSlice";
+import { CartItemType, itemMinus, removeItem, setItems } from "Slice/CartSlice";
 
-type CartItemType = {
-  id: number;
-  title: string;
-  types: string;
-  sizes: number;
-  category: number;
-  price: number;
-  count: number;
+type CartItemProps = {
+  item: CartItemType;
+  // id: string;
+  // title: string;
+  // types: string;
+  // sizes: number;
+  // category: number;
+  // price: number;
+  // count: number;
 };
 
-export const CartItem: FC<CartItemType> = ({ id, title, types, sizes, category, price, count }) => {
+export const CartItem: FC<CartItemProps> = ({ item }) => {
+  const { id, title, types, sizes, category, price, count } = item;
+
   const dispatch = useDispatch();
-  const itemPlus = () => dispatch(setItems(id));
+  const itemPlus = () => dispatch(setItems(item));
   const minusItem = () => dispatch(itemMinus(id));
   return (
     <>
@@ -63,7 +66,7 @@ export const CartItem: FC<CartItemType> = ({ id, title, types, sizes, category, 
           <div className="cart__item-price">
             <b>{price * count} ₽</b>
           </div>
-          <div className="cart__item-remove">
+          <div onClick={() => dispatch(removeItem(id))} className="cart__item-remove">
             <div className="button button--outline button--circle">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path

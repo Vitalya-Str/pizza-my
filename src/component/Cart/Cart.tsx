@@ -66,7 +66,7 @@ export const Cart = () => {
               </div>
             </div>
             {items.map((cart, i) => (
-              <CartItem key={i} {...cart} />
+              <CartItem key={i} item = {cart} />
             ))}
             <div className="cart__bottom">
               <div className="cart__bottom-details">
