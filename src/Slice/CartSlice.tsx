@@ -28,8 +28,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setItems: (state, action: PayloadAction<CartItemType>) => {
-      console.log(state.items, action.payload.id);
-
       const newItems = state.items.find((obj) => obj.id === action.payload.id);
       if (newItems) {
         newItems.count++;
